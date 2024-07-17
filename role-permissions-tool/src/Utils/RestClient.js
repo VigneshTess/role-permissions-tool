@@ -1,6 +1,9 @@
+import Toast from '../Services/ToastService';
+
+/* import AuthService from '../Services/AuthService'; */
 let API_ENDPOINT = import.meta.env.VITE_API_URL;  // Import the API endpoint from the environment variables   
 
-import { loader } from "../Stores/loader.store"; // Import the loader store
+import { loader } from "../Stores/loader.store" // Import the loader store
 
 
 export class RESTClient {
@@ -17,6 +20,7 @@ export class RESTClient {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                
             }
         });
         return this.processResponse(result);
@@ -73,6 +77,13 @@ export class RESTClient {
         return this.processResponse(result);
     }
 
+    /* auth() {
+        const tokens = AuthService.getTokens();
+        return tokens && tokens.access ? {
+            'Authorization': 'Bearer ' + tokens.access.token
+        } : {};
+    } */
+
     async processResponse(result) {
         // Hide the loader regardless of the outcome
         loader.set(false);
@@ -82,6 +93,7 @@ export class RESTClient {
             if (!result.ok) {
                 const data = await result.json();
                 if (data.message) {
+                    Toast.error(data.message);
                     return data;
                 } else {
                     throw new Error(`HTTP error! status: ${result.status}`);
@@ -98,7 +110,7 @@ export class RESTClient {
                     // Assuming 'data.error' is a boolean and 'data.message' contains error details
                     data.message.forEach(msg => {
                         msg.messages.forEach(m => {
-                            
+                            Toast.error(m.message);
                         });
                     });
                     // Optionally, throw an error to stop the execution if necessary
@@ -113,6 +125,7 @@ export class RESTClient {
         } catch (error) {
             // General error handling, such as network issues or parsing errors
             console.error('Error processing response:', error.message);
+            Toast.error(`An unexpected error occurred: ${error.message}`);
             // Optionally, rethrow the error if you want calling functions to handle it as well
             throw error;
         }

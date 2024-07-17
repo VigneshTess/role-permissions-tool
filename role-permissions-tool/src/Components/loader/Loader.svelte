@@ -1,5 +1,5 @@
 <script>
-    import { loader } from "../Stores/loader.store" // Import the loader store
+    import { loader } from "../../Stores/loader.store" // Import the loader store
   
     // Subscribe to the loader store
     let show = false;
