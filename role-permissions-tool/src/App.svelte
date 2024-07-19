@@ -14,12 +14,12 @@
     <AssignPermissions/>
   </Sidebar>
 </Route>
-<Route path="/addroles">
+<Route path="/manageroles">
   <Sidebar>
     <Addroles/>
   </Sidebar>
 </Route>
-<Route path="/addpermissions">
+<Route path="/managepermissions">
   <Sidebar>
     <Addpermissions/>
   </Sidebar>
